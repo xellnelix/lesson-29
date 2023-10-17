@@ -4,49 +4,15 @@ public class MultiThread {
 	private final Object mon = new Object();
 	private char value = 'C';
 
-	public void printA() {
+	public void printSymbol(char prev, char current) {
 		synchronized (mon) {
 			try {
 				for (int i = 0; i < 5; i++) {
-					while (value != 'C') {
+					while (value != prev) {
 						mon.wait();
 					}
-					value = 'A';
-					System.out.println('A');
-					mon.notifyAll();
-				}
-			} catch (Exception e) {
-				throw new RuntimeException(e);
-			}
-		}
-	}
-
-	public void printB() {
-		synchronized (mon) {
-			try {
-				for (int i = 0; i < 5; i++) {
-					while (value != 'A') {
-						mon.wait();
-					}
-					value = 'B';
-					System.out.println('B');
-					mon.notifyAll();
-				}
-			} catch (Exception e) {
-				throw new RuntimeException(e);
-			}
-		}
-	}
-
-	public void printC() {
-		synchronized (mon) {
-			try {
-				for (int i = 0; i < 5; i++) {
-					while (value != 'B') {
-						mon.wait();
-					}
-					value = 'C';
-					System.out.println('C');
+					value = current;
+					System.out.println(current);
 					mon.notifyAll();
 				}
 			} catch (Exception e) {
